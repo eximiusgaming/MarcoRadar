@@ -1,0 +1,11 @@
+name: MarcoRadar
+version: 0.1
+main: me.sgray.plugin.marco.MarcoRadar
+author: SGray
+website: sgray.me
+softdepend: [VanishNoPacket]
+
+commands:
+    marcoradar:
+        description: Displays list of player locations
+        aliases: [marco,listloc]
