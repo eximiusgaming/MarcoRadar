@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MarcoRadar extends JavaPlugin {
-    protected VanishUtil vanish;
+    protected VanishNoPacketUtil vnp;
 
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().getPlugin("VanishNoPacket") != null) {
-            vanish = new VanishUtil(this);
+            vnp = new VanishNoPacketUtil(this);
         }
         getCommand("marcoradar").setExecutor(this);
     }
@@ -25,11 +25,11 @@ public class MarcoRadar extends JavaPlugin {
             if (sender.hasPermission("marco.list")) {
                 if (getServer().getOnlinePlayers().length != 0) {
                     boolean seeAll = false;
-                    if (vanish != null) {
-                        seeAll = (!(sender instanceof Player) || vanish.canSeeAll((Player) sender)) ? true : false;
+                    if (vnp != null) {
+                        seeAll = (!(sender instanceof Player) || vnp.canSeeAll((Player) sender)) ? true : false;
                     }
                     for (Player target : getServer().getOnlinePlayers()) {
-                        if (vanish != null && vanish.isVanished(target)) {
+                        if (vnp != null && vnp.isVanished(target)) {
                             if (seeAll) {
                                 giveLocation(sender, target);
                             }
