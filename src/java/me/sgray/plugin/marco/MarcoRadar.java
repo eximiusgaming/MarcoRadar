@@ -13,7 +13,7 @@ public class MarcoRadar extends JavaPlugin {
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().getPlugin("VanishNoPacket") != null) {
-            vanish = new VanishUtil(this);;
+            vanish = new VanishUtil(this);
         }
         getCommand("marcoradar").setExecutor(this);
     }
@@ -23,7 +23,7 @@ public class MarcoRadar extends JavaPlugin {
         String cmdName = cmd.getName().toLowerCase();
         if (cmdName.equals("marcoradar")) {
             if (sender.hasPermission("marco.list")) {
-                if (!getServer().getOnlinePlayers().isEmpty()) {
+                if (getServer().getOnlinePlayers().length != 0) {
                     boolean seeAll = false;
                     if (vanish != null) {
                         seeAll = (!(sender instanceof Player) || vanish.canSeeAll((Player) sender)) ? true : false;
