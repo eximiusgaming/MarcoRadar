@@ -1,8 +1,8 @@
-name: MarcoRadar
-version: 0.1
-main: me.sgray.plugin.marco.MarcoRadar
-author: SGray
-website: sgray.me
+name: ${name}
+version: ${version}
+main: ${mainClass}
+author: ${author}
+website: ${url}
 softdepend: [VanishNoPacket]
 
 commands:
