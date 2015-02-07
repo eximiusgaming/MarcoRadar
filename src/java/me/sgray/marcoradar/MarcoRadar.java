@@ -23,7 +23,7 @@ public class MarcoRadar extends JavaPlugin {
         String cmdName = cmd.getName().toLowerCase();
         if (cmdName.equals("marcoradar")) {
             if (sender.hasPermission("marco.list")) {
-                if (getServer().getOnlinePlayers().length != 0) {
+                if (!getServer().getOnlinePlayers().isEmpty()) {
                     boolean seeAll = false;
                     if (vnp != null) {
                         seeAll = (!(sender instanceof Player) || vnp.canSeeAll((Player) sender)) ? true : false;
