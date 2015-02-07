@@ -12,6 +12,7 @@ public class MarcoRadar extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         if (getServer().getPluginManager().getPlugin("VanishNoPacket") != null) {
             vnp = new VanishNoPacketUtil(this);
         }
@@ -31,10 +32,10 @@ public class MarcoRadar extends JavaPlugin {
                     for (Player target : getServer().getOnlinePlayers()) {
                         if (vnp != null && vnp.isVanished(target)) {
                             if (seeAll) {
-                                giveLocation(sender, target);
+                                giveLocation(sender, target, getNearbyEntityCount(target));
                             }
                         } else {
-                            giveLocation(sender, target);
+                            giveLocation(sender, target, getNearbyEntityCount(target));
                         }
                     }
                 } else {
@@ -50,10 +51,17 @@ public class MarcoRadar extends JavaPlugin {
         return false;
     }
 
-    private void giveLocation(CommandSender sender, Player target) {
+    private void giveLocation(CommandSender sender, Player target, int entities) {
         String tName = target.getName();
         Location loc = target.getLocation();
-        sender.sendMessage(ChatColor.GREEN + tName + ChatColor.YELLOW + " is at " + ChatColor.GREEN + getFriendlyLocation(loc));
+        sender.sendMessage(ChatColor.GREEN + tName + ChatColor.YELLOW + " is at " 
+                + ChatColor.GREEN + getFriendlyLocation(loc) 
+                + " - " + String.valueOf(entities) + " entities nearby");
+    }
+
+    private int getNearbyEntityCount(Player player) {
+        Double distance = Double.valueOf(getConfig().getDouble("count-entity-radius"));
+        return player.getNearbyEntities(distance, distance, distance).size();
     }
 
     private String getFriendlyLocation(Location loc) {
