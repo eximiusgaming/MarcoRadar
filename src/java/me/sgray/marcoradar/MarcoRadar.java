@@ -27,6 +27,16 @@ public class MarcoRadar extends JavaPlugin {
             return false;
         }
 
+        if (args.length == 1 && args[0].equals("reload")) {
+            if (!sender.hasPermission("marco.admin")) {
+                return false;
+            } else {
+                reloadConfig();
+                sender.sendMessage("Config reloaded");
+                return true;
+            }
+        }
+
         if (sender.hasPermission("marco.list")) {
             if (!getServer().getOnlinePlayers().isEmpty()) {
                 boolean seeAll = false;
