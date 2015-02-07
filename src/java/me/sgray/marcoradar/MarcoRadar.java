@@ -38,18 +38,26 @@ public class MarcoRadar extends JavaPlugin {
         }
 
         if (sender.hasPermission("marco.list")) {
+            boolean showEntities = false;
+
+            if (args.length == 1 && args[0].equals("-e")) {
+                showEntities = true;
+            }
+
             if (!getServer().getOnlinePlayers().isEmpty()) {
                 boolean seeAll = false;
+
                 if (vnp != null) {
                     seeAll = (!(sender instanceof Player) || vnp.canSeeAll((Player) sender)) ? true : false;
                 }
+
                 for (Player target : getServer().getOnlinePlayers()) {
                     if (vnp != null && vnp.isVanished(target)) {
                         if (seeAll) {
-                            giveLocation(sender, target, getNearbyEntityCount(target));
+                            giveLocation(sender, target, (showEntities) ? getNearbyEntityCount(target) : -1);
                         }
                     } else {
-                        giveLocation(sender, target, getNearbyEntityCount(target));
+                        giveLocation(sender, target, (showEntities) ? getNearbyEntityCount(target) : -1);
                     }
                 }
             } else {
@@ -66,9 +74,16 @@ public class MarcoRadar extends JavaPlugin {
     private void giveLocation(CommandSender sender, Player target, int entities) {
         String tName = target.getName();
         Location loc = target.getLocation();
-        sender.sendMessage(ChatColor.GREEN + tName + ChatColor.YELLOW + " is at " 
-                + ChatColor.GREEN + getFriendlyLocation(loc) 
-                + " - " + String.valueOf(entities) + " entities nearby");
+        StringBuilder sb = new StringBuilder();
+        sb.append(ChatColor.GREEN + tName);
+        sb.append(ChatColor.YELLOW + " is at ");
+        sb.append(ChatColor.GREEN + getFriendlyLocation(loc));
+        if (entities > -1) {
+            sb.append(ChatColor.YELLOW  + " - ");
+            sb.append(ChatColor.GREEN + String.valueOf(entities) + " entities");
+            sb.append(ChatColor.YELLOW + " nearby");
+        }
+        sender.sendMessage(sb.toString());
     }
 
     private int getNearbyEntityCount(Player player) {
