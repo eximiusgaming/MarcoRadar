@@ -22,33 +22,35 @@ public class MarcoRadar extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         String cmdName = cmd.getName().toLowerCase();
-        if (cmdName.equals("marcoradar")) {
-            if (sender.hasPermission("marco.list")) {
-                if (!getServer().getOnlinePlayers().isEmpty()) {
-                    boolean seeAll = false;
-                    if (vnp != null) {
-                        seeAll = (!(sender instanceof Player) || vnp.canSeeAll((Player) sender)) ? true : false;
-                    }
-                    for (Player target : getServer().getOnlinePlayers()) {
-                        if (vnp != null && vnp.isVanished(target)) {
-                            if (seeAll) {
-                                giveLocation(sender, target, getNearbyEntityCount(target));
-                            }
-                        } else {
+
+        if (!cmdName.equals("marcoradar")) {
+            return false;
+        }
+
+        if (sender.hasPermission("marco.list")) {
+            if (!getServer().getOnlinePlayers().isEmpty()) {
+                boolean seeAll = false;
+                if (vnp != null) {
+                    seeAll = (!(sender instanceof Player) || vnp.canSeeAll((Player) sender)) ? true : false;
+                }
+                for (Player target : getServer().getOnlinePlayers()) {
+                    if (vnp != null && vnp.isVanished(target)) {
+                        if (seeAll) {
                             giveLocation(sender, target, getNearbyEntityCount(target));
                         }
-                    }
-                } else {
-                    if (sender.hasPermission("marco.list")) {
-                        sender.sendMessage(ChatColor.GOLD + "Hmm, seems nobody is online.");
+                    } else {
+                        giveLocation(sender, target, getNearbyEntityCount(target));
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "Sorry, can't do that for you.");
+                if (sender.hasPermission("marco.list")) {
+                    sender.sendMessage(ChatColor.GOLD + "Hmm, seems nobody is online.");
+                }
             }
-            return true;
+        } else {
+            sender.sendMessage(ChatColor.RED + "Sorry, can't do that for you.");
         }
-        return false;
+        return true;
     }
 
     private void giveLocation(CommandSender sender, Player target, int entities) {
