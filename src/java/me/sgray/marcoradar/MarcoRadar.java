@@ -1,4 +1,4 @@
-package me.sgray.plugin.marco;
+package me.sgray.marcoradar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
